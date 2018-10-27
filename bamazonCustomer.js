@@ -1,0 +1,92 @@
+var mysql = require("mysql");
+var inquirer = require("inquirer");
+
+var connection = mysql.createConnection({
+    host: "localhost",
+
+    // Your port; if not 3306
+    port: 3306,
+
+    // Your username
+    user: "root",
+
+    // Your password
+    password: "",
+    database: "bamazon_db"
+});
+
+function showAll() {
+    connection.query("SELECT * FROM products", function (err, res) {
+        if (err) throw err;
+        console.log("\nAll Products: ");
+        for (var i = 0; i < res.length; i++) {
+            console.log("\nItem ID: " + res[i].item_id +
+                "\nProduct Name: " + res[i].product_name +
+                "\nPrice: " + res[i].price);
+        }
+        buyItem();
+    });
+}
+
+showAll();
+
+function buyItem() {
+    inquirer.prompt([{
+            type: "input",
+            name: "itemID",
+            message: "Please enter the ID number of the item you would like to purchase: ",
+            validate: function (value) {
+                if (isNaN(value) === false) {
+                    return true;
+                }
+                return false;
+            }
+        },
+        {
+            type: "input",
+            name: "quantity",
+            message: "How many would you like to purchase?",
+            validate: function (value) {
+                if (isNaN(value) === false) {
+                    return true;
+                }
+                return false;
+            }
+        }
+    ]).then(function (ans) {
+        var requestID = ans.itemID;
+        connection.query("SELECT stock_quantity FROM products WHERE item_id = ?", [requestID], function (err, res) {
+            if (err) throw err;
+            if (ans.quantity <= res[0].stock_quantity) {
+                var newQuant = res[0].stock_quantity - ans.quantity;
+                updateItem(requestID, newQuant, ans.quantity);
+            } else {
+                console.log("Insufficient quantity in stock!");
+                connection.end();
+            }
+        });
+    });
+}
+
+function updateItem(item, newQuantity, bought) {
+    connection.query("UPDATE products SET ? WHERE ?",
+        [{
+                stock_quantity: newQuantity
+            },
+            {
+                item_id: item
+            }
+        ],
+        function (err, res) {
+            if (err) throw err;
+            showTotal(item, bought);
+        });
+}
+
+function showTotal(id, multiplier) {
+    connection.query("SELECT price FROM products WHERE item_id = ?", [id], function (err, res) {
+        if (err) throw err;
+        console.log("Your total is: " + (res[0].price * multiplier) + " dollars");
+        connection.end();
+    });
+}

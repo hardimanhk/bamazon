@@ -84,9 +84,31 @@ function updateItem(item, newQuantity, bought) {
 }
 
 function showTotal(id, multiplier) {
-    connection.query("SELECT price FROM products WHERE item_id = ?", [id], function (err, res) {
+    connection.query("SELECT price, product_sales FROM products WHERE item_id = ?", [id], function (err, res) {
         if (err) throw err;
-        console.log("Your total is: " + (res[0].price * multiplier) + " dollars");
+        var total = res[0].price * multiplier;
+        console.log("Your total is: " + total.toFixed(2) + " dollars");
+        updateProductSales(id, res[0].price, multiplier, res[0].product_sales);
         connection.end();
     });
+}
+
+function updateProductSales(item, price, amount, existingSales) {
+    var sales = 0;
+    if (existingSales) {
+        sales = (price * amount) + existingSales;
+    } else {
+        sales = price * amount;
+    }
+    connection.query("UPDATE products SET ? WHERE ?",
+        [{
+                product_sales: sales
+            },
+            {
+                item_id: item
+            }
+        ],
+        function (err, res) {
+            if (err) throw err;
+        });
 }

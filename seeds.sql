@@ -9,3 +9,7 @@ INSERT INTO prodcuts VALUES
 (NULL, "Shark Pet Costume", "Pet", 9, 120),
 (NULL, "Colored Pencils", "Art", 26, 68),
 (NULL, "Floating Flamingo Coaster", "Bar", 9, 150);
+
+INSERT INTO departments VALUES
+(NULL, "Electronics", 500),
+(NULL, "Clothing & Apparel", 450);

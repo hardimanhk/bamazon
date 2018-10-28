@@ -40,11 +40,11 @@ function viewDepartments() {
     query += " ORDER BY departments.department_id";
     connection.query(query, function (err, res) {
         if (err) throw err;
-        console.log(res);
         var table = new Table({
             head: ['Department ID', 'Department Name', 'Over Head Costs', 'Product Sales', 'Total Profit'],
             colWidhths: [100, 200]
         });
+        console.log(res);
         for (var i = 0; i < res.length; i++) {
             if (res[i].sales) {
                 table.push([res[i].department_id, res[i].department_name, res[i].over_head_costs, res[i].sales, (res[i].sales - res[i].over_head_costs)]);

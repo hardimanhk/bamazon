@@ -23,4 +23,4 @@ The user selects the ID number of the product they would like to purchase and th
         * allows the user to make a new department 
 
 
-
+![](bamazonvid.webm)

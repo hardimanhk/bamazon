@@ -61,7 +61,7 @@ function buyItem() {
                 var newQuant = res[0].stock_quantity - ans.quantity;
                 updateItem(requestID, newQuant, ans.quantity);
             } else {
-                console.log("Insufficient quantity in stock!");
+                console.log("\nInsufficient quantity in stock!\n");
                 connection.end();
             }
         });
@@ -87,7 +87,7 @@ function showTotal(id, multiplier) {
     connection.query("SELECT price, product_sales FROM products WHERE item_id = ?", [id], function (err, res) {
         if (err) throw err;
         var total = res[0].price * multiplier;
-        console.log("Your total is: " + total.toFixed(2) + " dollars");
+        console.log("\nYour total is: " + total.toFixed(2) + " dollars\n");
         updateProductSales(id, res[0].price, multiplier, res[0].product_sales);
         connection.end();
     });

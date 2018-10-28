@@ -23,4 +23,4 @@ The user selects the ID number of the product they would like to purchase and th
         * allows the user to make a new department 
 
 
-![](bamazonvid.webm)
+[I'm an inline-style link with title](https://drive.google.com/file/d/1WVuKwVcPc1DTR0vqVoJtWDORWZ2cboDx/view "My Bamazon App")

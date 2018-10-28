@@ -22,5 +22,5 @@ The user selects the ID number of the product they would like to purchase and th
     2. Create a new department 
         * allows the user to make a new department 
 
-
-[Link to video: ](https://drive.google.com/file/d/1WVuKwVcPc1DTR0vqVoJtWDORWZ2cboDx/view "My Bamazon App")
+Here is a video to see the app in action:
+[Link to video](https://drive.google.com/file/d/1WVuKwVcPc1DTR0vqVoJtWDORWZ2cboDx/view "My Bamazon App")
